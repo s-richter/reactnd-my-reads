@@ -31,7 +31,12 @@ class SearchBooks extends React.Component {
                     if (Array.isArray(result)) {
                         this.setState({
                             matchingBooks: result.map((b) => {
-                                b.shelf = 'none'
+                                let bookInShelf = this.props.booksInShelves.find((item) => item.id === b.id)
+                                if (bookInShelf) {
+                                    b.shelf = bookInShelf.shelf
+                                } else {
+                                    b.shelf = 'none'
+                                }
                                 return b
                             })
                         })
