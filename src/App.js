@@ -1,41 +1,36 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-// import ListBookshelves from './ListShelves'
 import Bookshelf from './Bookshelf'
 import SearchBooks from './SearchBooks'
 import './App.css'
 
 class BooksApp extends React.Component {
+  static statics = {
+    currentlyReading: 'currentlyReading',
+    wantToRead: 'wantToRead',
+    read: 'read',
+    none: 'none'
+  }
+
   state = {
-    books: [],
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
+    books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
-      this.setState({
-        currentlyReading: books.filter((book) =>
-          (
-            book.shelf === 'currentlyReading'
-          ))
-      })
-      this.setState({
-        wantToRead: books.filter((book) =>
-          (
-            book.shelf === 'wantToRead'
-          ))
-      })
-      this.setState({
-        read: books.filter((book) =>
-          (
-            book.shelf === 'read'
-          ))
-      })
     })
+  }
+
+  handleChangeShelf = (book, shelf) => {
+    if (book && book.id && shelf) {
+      if (!(shelf in BooksApp.statics)) {
+        shelf = BooksApp.statics.none
+      }
+      book.shelf = shelf
+      this.setState((prev) => ({books: prev.books}))
+    }
   }
 
   render() {
@@ -48,9 +43,24 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf title='Currently Reading' books={this.state.currentlyReading} />
-                <Bookshelf title='Want to Read' books={this.state.wantToRead} />
-                <Bookshelf title='Read' books={this.state.read} />
+                <Bookshelf
+                  title={BooksApp.statics.currentlyReading}
+                  books={this.state.books.filter(
+                    (book) => book.shelf === BooksApp.statics.currentlyReading
+                  )}
+                  handleChangeShelf={this.handleChangeShelf} />
+                <Bookshelf
+                  title={BooksApp.statics.wantToRead}
+                  books={this.state.books.filter(
+                    (book) => book.shelf === BooksApp.statics.wantToRead
+                  )}
+                  handleChangeShelf={this.handleChangeShelf} />
+                <Bookshelf
+                  title={BooksApp.statics.read}
+                  books={this.state.books.filter(
+                    (book) => book.shelf === BooksApp.statics.read
+                  )}
+                  handleChangeShelf={this.handleChangeShelf} />
               </div>
             </div>
             <div className="open-search">
