@@ -28,8 +28,11 @@ class BooksApp extends React.Component {
       if (!(shelf in BooksApp.statics)) {
         shelf = BooksApp.statics.none
       }
-      book.shelf = shelf
-      this.setState((prev) => ({books: prev.books}))
+      BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf
+        this.setState((prev) => ({ 
+          books: prev.books }))
+      })
     }
   }
 
