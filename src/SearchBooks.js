@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import Book from './Book'
 
 class SearchBooks extends React.Component {
     static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
@@ -19,38 +20,34 @@ class SearchBooks extends React.Component {
 
     state = {
         query: '',
-        matchingBooks: [],
-        result: '' // TODO: remove
+        matchingBooks: []
     }
 
     updateQuery = (query) => {
-        console.log('---- query updated: ' + query + '----')
         this.setState({ query: query })
         if (query.length > 1) {
-            console.log('query.length: ' + query.length)
             BooksAPI.search(query)
                 .then((result) => {
-                    console.log('result: ' + result)
                     if (Array.isArray(result)) {
-                        console.log('result is an Array:')
-                        console.log(result.map((b) => b.title).join(', '))
                         this.setState({
-                            matchingBooks: result
+                            matchingBooks: result.map((b) => {
+                                b.shelf = 'none'
+                                return b
+                            })
                         })
                     } else {
-                        console.log('result is NOT an Array:')
                         this.setState({
                             matchingBooks: []
                         })
                     }
-                    console.log('matchingBooks is now: ')
-                    console.log(this.state.matchingBooks.map((b) => b.title).join(', '))
                     this.setState({
                         result: this.state.matchingBooks.map((b) => b.title).join(', ')
                     })
                 })
                 .catch((ex) => {
-                    console("exception: " + ex)
+                    this.setState({
+                        result: ex
+                    })
                     this.setState({
                         matchingBooks: []
                     })
@@ -85,7 +82,14 @@ class SearchBooks extends React.Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid"></ol>
+                    <ol className="books-grid">
+                        {this.state.matchingBooks.map((book) => (
+                            <Book
+                                key={book.id}
+                                book={book}
+                                handleChangeShelf={(book, shelf) => this.props.handleChangeShelf(book, shelf)} />
+                        ))}
+                    </ol>
                 </div>
                 <div>{this.state.result}</div>
             </div>
