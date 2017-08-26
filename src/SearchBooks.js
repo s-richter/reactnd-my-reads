@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-import Book from './Book'
+import BooksGrid from './BooksGrid'
 
 class SearchBooks extends React.Component {
     static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
@@ -68,7 +68,7 @@ class SearchBooks extends React.Component {
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
-                    <div className="search-books-input-wrapper">                        
+                    <div className="search-books-input-wrapper">
                         <input
                             type="text"
                             placeholder="Search by title or author"
@@ -78,14 +78,11 @@ class SearchBooks extends React.Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid">
-                        {this.state.matchingBooks.map((book) => (
-                            <Book
-                                key={book.id}
-                                book={book}
-                                handleChangeShelf={(book, shelf) => this.props.handleChangeShelf(book, shelf)} />
-                        ))}
-                    </ol>
+                    <BooksGrid
+                        books={this.state.matchingBooks}
+                        handleChangeShelf={(book, shelf) =>
+                            this.props.handleChangeShelf(book, shelf)}
+                    />
                 </div>
                 <div>{this.state.result}</div>
             </div>
