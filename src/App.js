@@ -6,7 +6,7 @@ import SearchBooks from './SearchBooks'
 import './App.css'
 
 class BooksApp extends React.Component {
-  static statics = {
+  static shelfCategories = {
     currentlyReading: 'currentlyReading',
     wantToRead: 'wantToRead',
     read: 'read',
@@ -25,8 +25,8 @@ class BooksApp extends React.Component {
 
   handleChangeShelf = (book, shelf) => {
     if (book && book.id && shelf) {
-      if (!(shelf in BooksApp.statics)) {
-        shelf = BooksApp.statics.none
+      if (!(shelf in BooksApp.shelfCategories)) {
+        shelf = BooksApp.shelfCategories.none
       }
       BooksAPI.update(book, shelf).then(() => {
         book.shelf = shelf
@@ -52,21 +52,21 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 <Bookshelf
-                  title={BooksApp.statics.currentlyReading}
+                  title='Currently Reading'
                   books={this.state.books.filter(
-                    (book) => book.shelf === BooksApp.statics.currentlyReading
+                    (book) => book.shelf === BooksApp.shelfCategories.currentlyReading
                   )}
                   handleChangeShelf={this.handleChangeShelf} />
                 <Bookshelf
-                  title={BooksApp.statics.wantToRead}
+                  title='Want to Read'
                   books={this.state.books.filter(
-                    (book) => book.shelf === BooksApp.statics.wantToRead
+                    (book) => book.shelf === BooksApp.shelfCategories.wantToRead
                   )}
                   handleChangeShelf={this.handleChangeShelf} />
                 <Bookshelf
-                  title={BooksApp.statics.read}
+                  title='Read'
                   books={this.state.books.filter(
-                    (book) => book.shelf === BooksApp.statics.read
+                    (book) => book.shelf === BooksApp.shelfCategories.read
                   )}
                   handleChangeShelf={this.handleChangeShelf} />
               </div>

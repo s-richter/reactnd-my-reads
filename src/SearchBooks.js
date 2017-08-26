@@ -45,22 +45,12 @@ class SearchBooks extends React.Component {
                             matchingBooks: []
                         })
                     }
-                    this.setState({
-                        result: this.state.matchingBooks.map((b) => b.title).join(', ')
-                    })
                 })
                 .catch((ex) => {
-                    this.setState({
-                        result: ex
-                    })
                     this.setState({
                         matchingBooks: []
                     })
                 })
-        } else {
-            this.setState({
-                result: ''
-            })
         }
     }
 
