@@ -20,10 +20,12 @@ class SearchBooks extends React.Component {
 
     state = {
         query: '',
-        matchingBooks: []
+        matchingBooks: []   // the books matching the current search term
     }
 
-    updateQuery = (query) => {
+    // this event handler gets called whenever the user changes 
+    //  the search term. It updates the list of displayed books accordingly.    
+    onChangeQuery = (query) => {
         this.setState({ query: query })
         if (query.length > 1) {
             BooksAPI.search(query)
@@ -31,6 +33,9 @@ class SearchBooks extends React.Component {
                     if (Array.isArray(result)) {
                         this.setState({
                             matchingBooks: result.map((b) => {
+                                // if this book is already in one of the shelves
+                                //  on the main page, this shelf should be the
+                                //  value of the books' property 'shelf'  
                                 let bookInShelf = this.props.booksInShelves.find((item) => item.id === b.id)
                                 if (bookInShelf) {
                                     b.shelf = bookInShelf.shelf
@@ -41,12 +46,16 @@ class SearchBooks extends React.Component {
                             })
                         })
                     } else {
+                        // in case of a problem no books should be displayed so
+                        //  that the user knows that the search term is invalid
                         this.setState({
                             matchingBooks: []
                         })
                     }
                 })
                 .catch((ex) => {
+                    // in case of a problem no books should be displayed so that
+                    //  the user knows that the search term is invalid
                     this.setState({
                         matchingBooks: []
                     })
@@ -59,20 +68,12 @@ class SearchBooks extends React.Component {
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
-                    <div className="search-books-input-wrapper">
-                        {/* 
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-                  
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
+                    <div className="search-books-input-wrapper">                        
                         <input
                             type="text"
                             placeholder="Search by title or author"
                             value={this.state.query}
-                            onChange={(event) => { this.updateQuery(event.target.value) }}
+                            onChange={(event) => { this.onChangeQuery(event.target.value) }}
                         />
                     </div>
                 </div>

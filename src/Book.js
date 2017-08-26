@@ -1,8 +1,10 @@
 import React from 'react'
 
 class Book extends React.Component {
-    render() {
+    render() {        
         const book = this.props.book
+        // sometimes the books returned by BooksAPI.search() do not
+        //  have values for all properties
         const imageURL = book.imageLinks
             ? `url(${book.imageLinks.thumbnail})`
             : 'url(https://books.google.com/googlebooks/images/no_cover_thumb.gif)'
