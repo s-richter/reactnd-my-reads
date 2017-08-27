@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
-import defaultCategory from './ShelfCategories'
+import { defaultCategory } from './ShelfCategories'
 
 class SearchBooks extends React.Component {
     static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
