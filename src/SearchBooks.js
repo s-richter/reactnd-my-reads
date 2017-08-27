@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
+import defaultCategory from './ShelfCategories'
 
 class SearchBooks extends React.Component {
     static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
@@ -40,7 +41,7 @@ class SearchBooks extends React.Component {
                                 if (bookInShelf) {
                                     b.shelf = bookInShelf.shelf
                                 } else {
-                                    b.shelf = 'none'
+                                    b.shelf = defaultCategory
                                 }
                                 return b
                             })

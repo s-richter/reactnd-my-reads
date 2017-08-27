@@ -1,9 +1,13 @@
 import React from 'react'
+import {
+    internalNames as ShelfCategories,
+    getDisplayName
+} from './ShelfCategories'
 
 function Book(props) {
     const book = props.book
-    // sometimes the books returned by BooksAPI.search() do not
-    //  have values for all properties
+    // sometimes the books returned by BooksAPI.search() do not have values for 
+    //  all properties, so let's set default values then
     const imageURL = book.imageLinks
         ? `url(${book.imageLinks.thumbnail})`
         : 'url(https://books.google.com/googlebooks/images/no_cover_thumb.gif)'
@@ -29,11 +33,20 @@ function Book(props) {
                             onChange={(e) => {
                                 props.handleChangeShelf(props.book, e.target.value)
                             }}>
+                            {/* the first entry in the context menu is actually
+                                not a shelf category, so we have to add it manually
+                            */}
                             <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
+                            {/* now we can enumerate over all the shelf categories
+                                and create an <option>-element for each category
+                            */}
+                            {ShelfCategories.map((category) => (
+                                <option
+                                    key={category}
+                                    value={category}>{getDisplayName(category)}
+                                </option>
+                                ))
+                            }                           
                         </select>
                     </div>
                 </div>

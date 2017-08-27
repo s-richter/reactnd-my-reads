@@ -1,18 +1,16 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import {
+  defaultCategory,
+  internalNames as ShelfCategories,
+  getDisplayName
+} from './ShelfCategories'
 import Bookshelf from './Bookshelf'
 import SearchBooks from './SearchBooks'
 import './App.css'
 
 class BooksApp extends React.Component {
-  static shelfCategories = {
-    currentlyReading: 'currentlyReading',
-    wantToRead: 'wantToRead',
-    read: 'read',
-    none: 'none'
-  }
-
   state = {
     books: []
   }
@@ -22,15 +20,15 @@ class BooksApp extends React.Component {
       this.setState({ books })
     })
   }
-  
+
   // This function sets the property 'shelf' of the supplied
   //  'book' to the specified value 'shelf', both locally and on the backend
   //  server.  
   handleChangeShelf = (book, shelf) => {
     if (book && book.id && shelf) {
-      if (!(shelf in BooksApp.shelfCategories)) {
-        // there should only be four well defined categories (including 'none')
-        shelf = BooksApp.shelfCategories.none
+      if (!ShelfCategories.includes(shelf)) {
+        // there should only be four well defined categories (including 'none')       
+        shelf = defaultCategory
       }
       // now that the shelf category of the book is verified, we can set it
       //  locally and on the backend server
@@ -40,7 +38,7 @@ class BooksApp extends React.Component {
           book.shelf = shelf
           // the function 'handleChangeShelf' gets also called from the 
           //  component 'SearchBooks'. In this case the book referred to by the
-          //  argument 'book'is not yet contained in the array 'books', so we 
+          //  argument 'book' is not yet contained in the array 'books', so we 
           //  have to explicitly add it using concat():          
           this.setState((prev) => ({
             books: prev.books
@@ -64,24 +62,20 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf
-                  title='Currently Reading'
-                  books={this.state.books.filter(
-                    (book) => book.shelf === BooksApp.shelfCategories.currentlyReading
-                  )}
-                  handleChangeShelf={this.handleChangeShelf} />
-                <Bookshelf
-                  title='Want to Read'
-                  books={this.state.books.filter(
-                    (book) => book.shelf === BooksApp.shelfCategories.wantToRead
-                  )}
-                  handleChangeShelf={this.handleChangeShelf} />
-                <Bookshelf
-                  title='Read'
-                  books={this.state.books.filter(
-                    (book) => book.shelf === BooksApp.shelfCategories.read
-                  )}
-                  handleChangeShelf={this.handleChangeShelf} />
+                {/* enumerate all the shelf categories (except for 'none') and
+                  create a 'BookShelf' component für each category
+                */}
+                {ShelfCategories
+                  .filter(category => category !== defaultCategory)
+                  .map((category) => (
+                    <Bookshelf
+                      key={category}
+                      title={getDisplayName(category)}
+                      books={this.state.books.filter(book => book.shelf === category)}
+                      handleChangeShelf={this.handleChangeShelf}
+                    />
+                  ))
+                }
               </div>
             </div>
             <div className="open-search">
