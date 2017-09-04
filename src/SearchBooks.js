@@ -24,8 +24,8 @@ class SearchBooks extends React.Component {
         matchingBooks: []   // the books matching the current search term
     }
 
-    // this event handler gets called whenever the user changes 
-    //  the search term. It updates the list of displayed books accordingly.    
+    // this event handler gets called whenever the user changes the search term. It updates the list of
+    //  displayed books accordingly
     onChangeQuery = (query) => {
         this.setState({ query: query })
         if (query.length > 1) {
@@ -34,9 +34,8 @@ class SearchBooks extends React.Component {
                     if (Array.isArray(result)) {
                         this.setState({
                             matchingBooks: result.map((b) => {
-                                // if this book is already in one of the shelves
-                                //  on the main page, this shelf should be the
-                                //  value of the books' property 'shelf'  
+                                // if this book is already on one of the shelves on the main page, this
+                                //  shelf should be assigned to this book, instead of the shelf 'none'
                                 let bookInShelf = this.props.booksInShelves.find((item) => item.id === b.id)
                                 if (bookInShelf) {
                                     b.shelf = bookInShelf.shelf
@@ -47,16 +46,16 @@ class SearchBooks extends React.Component {
                             })
                         })
                     } else {
-                        // in case of a problem no books should be displayed so
-                        //  that the user knows that the search term is invalid
+                        // in case of a problem no books should be displayed so that the user knows that
+                        //  the search term is invalid
                         this.setState({
                             matchingBooks: []
                         })
                     }
                 })
                 .catch((ex) => {
-                    // in case of a problem no books should be displayed so that
-                    //  the user knows that the search term is invalid
+                    // in case of a problem no books should be displayed so that the user knows that the
+                    //  search term is invalid
                     this.setState({
                         matchingBooks: []
                     })
@@ -67,6 +66,7 @@ class SearchBooks extends React.Component {
     render() {
         return (
             <div className="search-books">
+                {/* the search bar */}
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
@@ -78,6 +78,8 @@ class SearchBooks extends React.Component {
                         />
                     </div>
                 </div>
+
+                {/* the list of books matching the current query */}
                 <div className="search-books-results">
                     <BooksGrid
                         books={this.state.matchingBooks}
