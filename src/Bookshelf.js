@@ -3,10 +3,16 @@ import PropTypes from 'prop-types'
 import BooksGrid from './BooksGrid'
 
 function Bookshelf(props) {
+    const bookCount = props.books.length
+    const countDisplay = `(${bookCount} book${bookCount !== 1 ? 's' : ''})`
+
     return (
         <div className="bookshelf">
-            {/* the title of the shelf */}
-            <h2 className="bookshelf-title">{props.title}</h2>
+            {/* the title of the shelf and the number of books contained in this shelf */}
+            <h2 className="bookshelf-title">
+                {props.title}&nbsp;
+                <span className="bookshelf-book-count">{countDisplay}</span>
+            </h2>
 
             {/* the books contained in teh shelf */}
             <div className="bookshelf-books">

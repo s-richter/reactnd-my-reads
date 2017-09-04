@@ -164,6 +164,11 @@ body, .app {
   cursor: pointer;
 }
 
+.bookshelf-book-count {
+  font-weight: normal;
+  font-size: 0.8em;
+}
+
 /* book cover */
 
 .book-cover {
