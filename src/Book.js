@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { internalNames as ShelfCategories, getDisplayName } from './ShelfCategories'
 
 function Book(props) {
@@ -60,6 +61,17 @@ function Book(props) {
             </div>
         </li>
     )
+}
+
+// the code above does also do some (overlapping) checks
+Book.PropTypes = {
+    book: PropTypes.shape({
+        imageLinks: PropTypes.array.isRequired,
+        authors: PropTypes.array.isRequired,
+        shelf: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired
+    }),
+    handleChangeShelf: PropTypes.func.isRequired
 }
 
 export default Book

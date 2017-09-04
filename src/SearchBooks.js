@@ -1,10 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
 import { defaultCategory } from './ShelfCategories'
 
 class SearchBooks extends React.Component {
+    static propTypes = {
+        booksInShelves: PropTypes.array.isRequired,
+        handleChangeShelf: PropTypes.func.isRequired
+    }
+    
     static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
         'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief',
         'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook',
