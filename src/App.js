@@ -12,9 +12,10 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books })
-    })
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState({ books })
+      })
   }
 
   // This function sets the property 'shelf' of the supplied 'book' to the specified value 'shelf',
@@ -25,7 +26,7 @@ class BooksApp extends React.Component {
         // there should only be four well defined categories (including 'none')
         shelf = defaultCategory
       }
-     // now that the shelf category of the book is verified, we can set it locally and on the 
+      // now that the shelf category of the book is verified, we can set it locally and on the 
       //backend server
       BooksAPI
         .update(book, shelf)
@@ -55,7 +56,8 @@ class BooksApp extends React.Component {
 
             {/* Title of the app */}
             <div className="list-books-title">
-              <h1>MyReads</h1>
+              <h1>My Reads</h1>
+              <p>Udacity React Nanodegree · Project #1 · Stephan Richter</p>
             </div>
 
             {/* The books on the shelves */}
