@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
 import { defaultCategory } from './ShelfCategories'
+import Notification from './Notification'
 
 class SearchBooks extends React.Component {
     static propTypes = {
         booksInShelves: PropTypes.array.isRequired,
         handleChangeShelf: PropTypes.func.isRequired
     }
-    
+
     static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
         'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief',
         'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook',
@@ -27,7 +28,8 @@ class SearchBooks extends React.Component {
 
     state = {
         query: '',
-        matchingBooks: []   // the books matching the current search term
+        matchingBooks: [],  // the books matching the current search term
+        newShelf: ''    // the shelf a book was recently added to
     }
 
     // this event handler gets called whenever the user changes the search term. It updates the list of
@@ -40,8 +42,7 @@ class SearchBooks extends React.Component {
                     if (Array.isArray(result)) {
                         this.setState({
                             matchingBooks: result.map((b) => {
-                                // if this book is already on one of the shelves on the main page, this
-                                //  shelf should be assigned to this book, instead of the shelf 'none'
+                                // set the shelf of the book, if a shelf was already set on the main page
                                 let bookInShelf = this.props.booksInShelves.find((item) => item.id === b.id)
                                 if (bookInShelf) {
                                     b.shelf = bookInShelf.shelf
@@ -69,6 +70,13 @@ class SearchBooks extends React.Component {
         }
     }
 
+    setNewShelf = (shelf) => {
+        this.setState({ newShelf: shelf})
+        // this causes another render, but we need this so that the books' shelf is updated.
+        //  What we don't want is a re-render of the notification, so we have to deal with that problem
+        //  in the component 'Notification', which manages the notification display
+    }
+
     render() {
         return (
             <div className="search-books">
@@ -89,11 +97,15 @@ class SearchBooks extends React.Component {
                 <div className="search-books-results">
                     <BooksGrid
                         books={this.state.matchingBooks}
-                        handleChangeShelf={(book, shelf) =>
-                            this.props.handleChangeShelf(book, shelf)}
+                        handleChangeShelf={(book, shelf) => {
+                            this.props.handleChangeShelf(book, shelf)
+                            this.setNewShelf(shelf)
+                        }}
                     />
                 </div>
-                <div>{this.state.result}</div>
+
+                {/* the notification showing the most recent shelf change */}
+                <Notification newShelf={this.state.newShelf}/>
             </div>
         )
     }
