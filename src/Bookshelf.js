@@ -17,11 +17,15 @@ function Bookshelf(props) {
 
             {/* the books contained in the shelf */}
             <div className="bookshelf-books">
-                <BooksGrid
-                    books={props.books}
-                    handleChangeShelf={(book, shelf) =>
-                        props.handleChangeShelf(book, shelf)}
-                />
+                {
+                    bookCount === 0
+                        ? <div>fetching books...</div>
+                        : <BooksGrid
+                            books={props.books}
+                            handleChangeShelf={(book, shelf) =>
+                                props.handleChangeShelf(book, shelf)}
+                        />
+                }
             </div>
         </div>
     )
