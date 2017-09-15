@@ -12,7 +12,7 @@ class SearchBooks extends React.Component {
         handleChangeShelf: PropTypes.func.isRequired
     }
 
-    static searchTermns = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
+    static searchTerms = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
         'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief',
         'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook',
         'Cricket', 'Cycling', 'Desai', 'Design', 'Development', 'Digital Marketing',
@@ -37,7 +37,8 @@ class SearchBooks extends React.Component {
     onChangeQuery = (query) => {
         this.setState({ query: query })
         if (query.length > 1) {
-            BooksAPI.search(query)
+            return BooksAPI
+                .search(query)
                 .then((result) => {
                     if (Array.isArray(result)) {
                         this.setState({
@@ -67,14 +68,9 @@ class SearchBooks extends React.Component {
                         matchingBooks: []
                     })
                 })
+        } else {
+            return Promise.resolve(null)
         }
-    }
-
-    setNewShelf = (shelf) => {
-        this.setState({ newShelf: shelf})
-        // this causes another render, but we need this so that the books' shelf is updated.
-        //  What we don't want is a re-render of the notification, so we have to deal with that problem
-        //  in the component 'Notification', which manages the notification display
     }
 
     render() {
@@ -88,7 +84,9 @@ class SearchBooks extends React.Component {
                             type="text"
                             placeholder="Search by title or author"
                             value={this.state.query}
-                            onChange={(event) => { this.onChangeQuery(event.target.value) }}
+                            onChange={(event) => {
+                                this.props.wrapOperation(this.onChangeQuery, event.target.value)
+                            }}
                         />
                     </div>
                 </div>
@@ -98,14 +96,15 @@ class SearchBooks extends React.Component {
                     <BooksGrid
                         books={this.state.matchingBooks}
                         handleChangeShelf={(book, shelf) => {
-                            this.props.handleChangeShelf(book, shelf)
-                            this.setNewShelf(shelf)
+                            this.props
+                                .wrapOperation(this.props.handleChangeShelf, book, shelf)
+                                .then(() => this.setState({ newShelf: shelf }))
                         }}
                     />
                 </div>
 
                 {/* the notification showing the most recent shelf change */}
-                <Notification newShelf={this.state.newShelf}/>
+                <Notification newShelf={this.state.newShelf} />
             </div>
         )
     }

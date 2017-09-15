@@ -10,10 +10,10 @@ class Notification extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        // SearchBooks (the parent component) causes two renderings whenever we change the book shelf. 
-        //  We only want to render the current 'Notification' once, so we have to check if the shelf 
-        //  was already set and cancel the second render
-        return this.props.newShelf !== nextProps.newShelf || this.props.newShelf === ''
+        // we just want to render a notification if there was a change. Due to the fact that React renders
+        //  the components every time a state or prop change happens, this component might render multiple
+        //  times, which we want to avoid
+        return this.props.newShelf !== nextProps.newShelf
     }
 
     render() {

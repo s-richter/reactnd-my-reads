@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-import { defaultCategory, internalNames as ShelfCategories, getDisplayName } from './ShelfCategories'
-import Bookshelf from './Bookshelf'
+import { defaultCategory, internalNames as ShelfCategories } from './ShelfCategories'
+import BookList from './BookList'
 import SearchBooks from './SearchBooks'
+import Loader from './Loader'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -28,8 +29,8 @@ class BooksApp extends React.Component {
         shelf = defaultCategory
       }
       // now that the shelf category of the book is verified, we can set it locally and on the 
-      //backend server
-      BooksAPI
+      //backend server. We return a promise so that the caller can act upon it
+      return BooksAPI
         .update(book, shelf)
         .then(() => {
           book.shelf = shelf
@@ -44,6 +45,10 @@ class BooksApp extends React.Component {
               .concat(book)
           }))
         })
+        // .then(() => {
+        //   var currentTime = new Date().getTime()
+        //   while (currentTime + 10000 >= new Date().getTime()) { }
+        // })     // for testing the loading indicator
     }
   }
 
@@ -53,46 +58,21 @@ class BooksApp extends React.Component {
 
         {/* the first <Route> contains the main page  */}
         <Route exact path="/" render={() => (
-          <div className="list-books">
-
-            {/* Title of the app */}
-            <div className="list-books-title">
-              <h1>My Reads</h1>
-              <p>Udacity React Nanodegree · Project #1 · Stephan Richter</p>
-            </div>
-
-            {/* The books on the shelves */}
-            <div className="list-books-content">
-              <div>
-                {/* enumerate all the shelf categories (except for 'none') and create a 'BookShelf' 
-                  component für each category
-                */}
-                {ShelfCategories
-                  .filter(category => category !== defaultCategory)
-                  .map((category) => (
-                    <Bookshelf
-                      key={category}
-                      title={getDisplayName(category)}
-                      books={this.state.books.filter(book => book.shelf === category)}
-                      handleChangeShelf={this.handleChangeShelf}
-                    />
-                  ))
-                }
-              </div>
-            </div>
-
-            {/* Link to the search page */}
-            <div className="open-search">
-              <Link to="/search">Add a book</Link>
-            </div>
-          </div>
+          <Loader>
+            <BookList
+              books={this.state.books}
+              handleChangeShelf={this.handleChangeShelf}
+            />
+          </Loader>
         )} />
 
         {/* the second <Route> contains the search page  */}
         <Route path="/search" render={() => (
-          <SearchBooks
-            booksInShelves={this.state.books}
-            handleChangeShelf={this.handleChangeShelf} />
+          <Loader>
+            <SearchBooks
+              booksInShelves={this.state.books}
+              handleChangeShelf={this.handleChangeShelf} />
+          </Loader>
         )} />
       </div>
     )

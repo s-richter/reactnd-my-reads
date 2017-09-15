@@ -14,7 +14,7 @@ function Bookshelf(props) {
                 <span className="bookshelf-book-count">{countDisplay}</span>
             </h2>
 
-            {/* the books contained in teh shelf */}
+            {/* the books contained in the shelf */}
             <div className="bookshelf-books">
                 <BooksGrid
                     books={props.books}
