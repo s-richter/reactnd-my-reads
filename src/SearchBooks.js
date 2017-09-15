@@ -6,6 +6,7 @@ import BooksGrid from './BooksGrid'
 import { defaultCategory } from './ShelfCategories'
 import Notification from './Notification'
 
+// the component enabling the user to search for books and place them on a shelf
 class SearchBooks extends React.Component {
     static propTypes = {
         booksInShelves: PropTypes.array.isRequired,
@@ -33,7 +34,8 @@ class SearchBooks extends React.Component {
     }
 
     // this event handler gets called whenever the user changes the search term. It updates the list of
-    //  displayed books accordingly
+    //  displayed books accordingly and returns a promise so that the caller can act upon the end of the
+    //  operation
     onChangeQuery = (query) => {
         this.setState({ query: query })
         if (query.length > 1) {

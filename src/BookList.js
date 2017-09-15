@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { defaultCategory, internalNames as ShelfCategories, getDisplayName } from './ShelfCategories'
 import Bookshelf from './Bookshelf'
 
+// the list of books, ordered by the book shelf they are on
 function BookList(props) {
     return (
         <div className="list-books">
@@ -18,7 +19,7 @@ function BookList(props) {
                 <div>
                     {/* enumerate all the shelf categories (except for 'none') and create a 'BookShelf' 
                           component für each category
-                        */}
+                    */}
                     {ShelfCategories
                         .filter(category => category !== defaultCategory)
                         .map((category) => (

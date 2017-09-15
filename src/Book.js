@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { internalNames as ShelfCategories, getDisplayName } from './ShelfCategories'
 
+// the component representing a book including a menu control enabling the user to change the shelf the
+//  book is on
 function Book(props) {
     const book = props.book
     // sometimes the books returned by BooksAPI.search() do not have values for all properties, so let's

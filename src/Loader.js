@@ -1,8 +1,8 @@
 import React from 'react'
 import LoadingIndicator from './LoadingIndicator'
 
-// A wrapper component that displays a loading (busy) indicator while a long-running operation is being 
-//  executed. 
+// A wrapper component that displays a loading (busy) indicator when a long-running operation is being
+//  executed
 // Usage:
 //  - First, check that the long-running operation returns a promise. The 'Loader' component uses this
 //      to determine when the operation has finished

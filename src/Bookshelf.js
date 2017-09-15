@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BooksGrid from './BooksGrid'
 
+// a book shelf containing some books
 function Bookshelf(props) {
     const bookCount = props.books.length
     const countDisplay = `(${bookCount} book${bookCount !== 1 ? 's' : ''})`

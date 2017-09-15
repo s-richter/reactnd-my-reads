@@ -7,6 +7,7 @@ import SearchBooks from './SearchBooks'
 import Loader from './Loader'
 import './App.css'
 
+// the top level component of the app 'MyReads'
 class BooksApp extends React.Component {
   state = {
     books: []
@@ -45,10 +46,10 @@ class BooksApp extends React.Component {
               .concat(book)
           }))
         })
-        // .then(() => {
-        //   var currentTime = new Date().getTime()
-        //   while (currentTime + 10000 >= new Date().getTime()) { }
-        // })     // for testing the loading indicator
+      // .then(() => {
+      //   var currentTime = new Date().getTime()
+      //   while (currentTime + 10000 >= new Date().getTime()) { }
+      // })     // for testing the loading indicator
     }
   }
 
@@ -56,7 +57,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
 
-        {/* the first <Route> contains the main page  */}
+        {/* the first <Route> contains the book shelves with the books  */}
         <Route exact path="/" render={() => (
           <Loader>
             <BookList

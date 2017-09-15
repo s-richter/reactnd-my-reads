@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
+// the grid containing the books of a shelf
 function BooksGrid(props) {
     return (
         <ol className="books-grid">
