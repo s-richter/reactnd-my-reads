@@ -71,6 +71,9 @@ class SearchBooks extends React.Component {
                     })
                 })
         } else {
+            this.setState({
+                matchingBooks: []
+            })
             return Promise.resolve(null)
         }
     }
