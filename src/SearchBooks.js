@@ -5,6 +5,7 @@ import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
 import { defaultCategory } from './ShelfCategories'
 import Notification from './Notification'
+// import SearchArea from './SearchArea'
 import SearchTermsClue from './SearchTermsClue'
 
 // the component enabling the user to search for books and place them on a shelf
@@ -22,14 +23,13 @@ class SearchBooks extends React.Component {
 
     componentWillReceiveProps() {
         window.scrollTo(0, 0)   // when the query changes, we want to scroll to the top so that we can
-                                //  see all results
+        //  see all results
     }
 
     // this event handler gets called whenever the user changes the search term. It updates the list of
     //  displayed books accordingly and returns a promise so that the caller can act upon the end of the
     //  operation
     onChangeQuery = (query) => {
-        this.setState({ query: query })
         if (query.length > 1) {
             return BooksAPI
                 .search(query)
@@ -63,14 +63,17 @@ class SearchBooks extends React.Component {
                         matchingBooks: []
                     })
                 })
+                .then(() => { this.setState({ query: query }) })
         } else {
             this.setState({
                 matchingBooks: []
             })
-            return Promise.resolve(null)
+            return Promise
+                .resolve(null)
+                .then(() => { this.setState({ query: query }) })
         }
     }
-
+    
     render() {
         return (
             <div className="search-books">
@@ -86,6 +89,16 @@ class SearchBooks extends React.Component {
                                 this.props.wrapOperation(this.onChangeQuery, event.target.value)
                             }}
                         />
+                    </div>
+                    <div className='search-books-bar-clear-wrapper'>
+                        <button
+                            onClick={() => this.onChangeQuery('')}
+                            className='search-books-bar-clear'
+                            style={{
+                                opacity: `${this.state.query === '' ? 0 : 1}`
+                            }}>
+                            Clear search
+                        </button>
                     </div>
                 </div>
 
@@ -109,6 +122,27 @@ class SearchBooks extends React.Component {
                             />
                     }
                 </div>
+
+                {/* the search bar and search clues for the user */}
+                {/* <SearchArea
+                    query={this.state.query}
+                    onChangeQuery={(query) =>
+                        this.props.wrapOperation(this.onChangeQuery, query)
+                    }
+                    bookCount={this.state.matchingBooks.length}
+                /> */}
+
+                {/* the list of books matching the current query */}
+                {/* <div className="search-books-results">
+                    <BooksGrid
+                        books={this.state.matchingBooks}
+                        handleChangeShelf={(book, shelf) => {
+                            this.props
+                                .wrapOperation(this.props.handleChangeShelf, book, shelf)
+                                .then(() => this.setState({ newShelf: shelf }))
+                        }}
+                    />
+                </div> */}
 
                 {/* the notification showing the most recent shelf change */}
                 <Notification newShelf={this.state.newShelf} />

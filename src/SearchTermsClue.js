@@ -15,7 +15,7 @@ class SearchTermsClue extends React.Component {
         'Rowling', 'Satire', 'Science Fiction', 'Shakespeare', 'Singh', 'Swimming',
         'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality',
         'Web Development', 'iOS']
-   
+
     constructor() {
         super()
         // group the search terms by their first letter. The result is an array with objects, each of
@@ -38,7 +38,14 @@ class SearchTermsClue extends React.Component {
                 }, [{ letter: SearchTermsClue.searchTerms[0].charAt(0), values: [] }])
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        // console.log("this.props.query="+this.props.query)
+        // console.log("nextProps.query="+nextProps.query)
+        return nextProps.query !== this.props.query;
+    }
+
     render() {
+        console.log("rendering SearchTermsClue")
         switch (this.props.query.length) {
             case 0:
                 return null
@@ -54,36 +61,34 @@ class SearchTermsClue extends React.Component {
                         <div className='search-books-invalid-query'>
                             Your query returned no results.
                         </div>
-                        <div>
-                            <div className='search-books-clue'>
-                                The following search terms are supported:
+                        <div className='search-books-clue'>
+                            The following search terms are supported:
                             </div>
-                            <div className='search-books-valid-search-terms'>
-                                {
-                                    this.groupedSearchTerms.map(group =>
-                                        <div
-                                            key={group.letter}
-                                            className='search-books-search-term-group'>
-                                            <div className='search-books-search-term-group-letter'>
-                                                {group.letter}
-                                            </div>
-                                            <div className='search-books-search-term-group-values'>
-                                                {
-                                                    group.values.map(term =>
-                                                        <div
-                                                            key={term}
-                                                            className='search-books-search-term'
-                                                            onClick={() =>
-                                                                this.props.onChangeQuery(term)}>
-                                                            {term}
-                                                        </div>
-                                                    )
-                                                }
-                                            </div>
+                        <div className='search-books-valid-search-terms'>
+                            {
+                                this.groupedSearchTerms.map(group =>
+                                    <div
+                                        key={group.letter}
+                                        className='search-books-search-term-group'>
+                                        <div className='search-books-search-term-group-letter'>
+                                            {group.letter}
                                         </div>
-                                    )
-                                }
-                            </div>
+                                        <div className='search-books-search-term-group-values'>
+                                            {
+                                                group.values.map(term =>
+                                                    <div
+                                                        key={term}
+                                                        className='search-books-search-term'
+                                                        onClick={() =>
+                                                            this.props.onChangeQuery(term)}>
+                                                        {term}
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 )

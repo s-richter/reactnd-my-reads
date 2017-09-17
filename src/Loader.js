@@ -62,7 +62,7 @@ class Loader extends React.Component {
                 })
             } catch (e) {
                 console.log(
-                    "There was an error executing the promise returning function and calling .then(...) "
+                    "There was an error executing the promise-returning function and calling .then(...) "
                     + "on the result. Check if the argument 'promiseFunc' is really a function "
                     + "returning a promise. Re-throwing the error now...")
                 throw e;
