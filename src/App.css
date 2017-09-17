@@ -103,6 +103,46 @@ body, .app {
   padding: 80px 10px 20px;
 }
 
+/* query related */
+.search-books-invalid-query {
+  margin: 20px;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.search-books-clue {
+  margin: 20px;
+}
+
+.search-books-valid-search-terms {
+  margin: 20px;
+}
+
+.search-books-search-term-group {
+  background-color: #F4F4F5;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.search-books-search-term-group-letter {
+  flex: 1 0 20%;
+  align-self: center;
+  padding: 30px;
+  font-size: 3em;
+}
+
+.search-books-search-term-group-values {
+  flex: 1 0 80%;
+  align-self: center;
+  padding: 10px;
+}
+
+.search-books-search-term:hover {
+  font-weight: bold;
+  cursor: pointer;
+  color: #3399ff;
+}
+
 /* books grid */
 
 .books-grid {

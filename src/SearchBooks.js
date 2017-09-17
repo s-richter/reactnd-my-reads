@@ -5,6 +5,7 @@ import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
 import { defaultCategory } from './ShelfCategories'
 import Notification from './Notification'
+import SearchTermsClue from './SearchTermsClue'
 
 // the component enabling the user to search for books and place them on a shelf
 class SearchBooks extends React.Component {
@@ -13,24 +14,15 @@ class SearchBooks extends React.Component {
         handleChangeShelf: PropTypes.func.isRequired
     }
 
-    static searchTerms = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
-        'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief',
-        'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook',
-        'Cricket', 'Cycling', 'Desai', 'Design', 'Development', 'Digital Marketing',
-        'Drama', 'Drawing', 'Dumas', 'Education', 'Everything', 'Fantasy', 'Film',
-        'Finance', 'First', 'Fitness', 'Football', 'Future', 'Games', 'Gandhi',
-        'Homer', 'Horror', 'Hugo', 'Ibsen', 'Journey', 'Kafka', 'King', 'Lahiri',
-        'Larsson', 'Learn', 'Literary Fiction', 'Make', 'Manage', 'Marquez',
-        'Money', 'Mystery', 'Negotiate', 'Painting', 'Philosophy', 'Photography',
-        'Poetry', 'Production', 'Programming', 'React', 'Redux', 'River', 'Robotics',
-        'Rowling', 'Satire', 'Science Fiction', 'Shakespeare', 'Singh', 'Swimming',
-        'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality',
-        'Web Development', 'iOS']
-
     state = {
         query: '',
         matchingBooks: [],  // the books matching the current search term
         newShelf: ''    // the shelf a book was recently added to
+    }
+
+    componentWillReceiveProps() {
+        window.scrollTo(0, 0)   // when the query changes, we want to scroll to the top so that we can
+                                //  see all results
     }
 
     // this event handler gets called whenever the user changes the search term. It updates the list of
@@ -46,7 +38,8 @@ class SearchBooks extends React.Component {
                         this.setState({
                             matchingBooks: result.map((b) => {
                                 // set the shelf of the book, if a shelf was already set on the main page
-                                let bookInShelf = this.props.booksInShelves.find((item) => item.id === b.id)
+                                let bookInShelf = this.props.booksInShelves
+                                    .find((item) => item.id === b.id)
                                 if (bookInShelf) {
                                     b.shelf = bookInShelf.shelf
                                 } else {
@@ -98,14 +91,23 @@ class SearchBooks extends React.Component {
 
                 {/* the list of books matching the current query */}
                 <div className="search-books-results">
-                    <BooksGrid
-                        books={this.state.matchingBooks}
-                        handleChangeShelf={(book, shelf) => {
-                            this.props
-                                .wrapOperation(this.props.handleChangeShelf, book, shelf)
-                                .then(() => this.setState({ newShelf: shelf }))
-                        }}
-                    />
+                    {
+                        this.state.matchingBooks.length === 0
+                            ? <SearchTermsClue
+                                query={this.state.query}
+                                onChangeQuery={(query) => {
+                                    this.props.wrapOperation(this.onChangeQuery, query)
+                                }}
+                            />
+                            : <BooksGrid
+                                books={this.state.matchingBooks}
+                                handleChangeShelf={(book, shelf) => {
+                                    this.props
+                                        .wrapOperation(this.props.handleChangeShelf, book, shelf)
+                                        .then(() => this.setState({ newShelf: shelf }))
+                                }}
+                            />
+                    }
                 </div>
 
                 {/* the notification showing the most recent shelf change */}
