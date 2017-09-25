@@ -115,8 +115,12 @@ body, .app {
   font-size: 0;
 }
 
-.search-books-search-area-clues {
+/* .search-books-search-area-clues {
   padding: 80px 10px 20px;
+} */
+
+.search-books-contacting-server {
+  margin: 20px;
 }
 
 .search-books-results {

@@ -38,14 +38,7 @@ class SearchTermsClue extends React.Component {
                 }, [{ letter: SearchTermsClue.searchTerms[0].charAt(0), values: [] }])
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        // console.log("this.props.query="+this.props.query)
-        // console.log("nextProps.query="+nextProps.query)
-        return nextProps.query !== this.props.query;
-    }
-
     render() {
-        console.log("rendering SearchTermsClue")
         switch (this.props.query.length) {
             case 0:
                 return null
@@ -56,6 +49,13 @@ class SearchTermsClue extends React.Component {
                     </div>
                 )
             default:
+                if (this.props.querying) {
+                    return (
+                        <div className='search-books-contacting-server'>
+                            Contacting server...
+                        </div>
+                    )
+                }
                 return (
                     <div>
                         <div className='search-books-invalid-query'>
