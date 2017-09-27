@@ -7,10 +7,10 @@ import SearchBooks from './SearchBooks'
 import Loader from './Loader'
 import './App.css'
 
-// the top level component of the app 'MyReads'
+// the top level component of the app 'My Reads'
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: []   // the books contained by the shelves
   }
 
   componentDidMount() {
@@ -21,8 +21,8 @@ class BooksApp extends React.Component {
       })
   }
 
-  // This function sets the property 'shelf' of the supplied 'book' to the specified value 'shelf',
-  //  both locally and on the backend server
+  // This function places the specified book on the specified shelf, both locally and on the backend
+  //  server, and returns a promise
   handleChangeShelf = (book, shelf) => {
     if (book && book.id && shelf) {
       if (!ShelfCategories.includes(shelf)) {
@@ -30,12 +30,12 @@ class BooksApp extends React.Component {
         shelf = defaultCategory
       }
       // now that the shelf category of the book is verified, we can set it locally and on the 
-      //backend server. We return a promise so that the caller can act upon it
+      //  backend server. We return a promise so that the caller can act upon it
       return BooksAPI
         .update(book, shelf)
         .then(() => {
           book.shelf = shelf
-          // the function 'handleChangeShelf' gets also called from the component 'SearchBooks'.
+          // the function 'handleChangeShelf' gets also called from the component <SearchBooks>.
           //  In this case the book referred to by the argument 'book' is not yet contained in the
           //  array 'books', so we  have to explicitly add it using concat():
           this.setState((prev) => ({

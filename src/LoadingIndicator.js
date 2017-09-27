@@ -1,6 +1,6 @@
 import React from 'react'
 
-// A functional component indicating when the app is busy
+// A functional component indicating when the app is busy. Animation done in CSS in App.css
 function LoadingIndicator(props) {
     return <div className="loading-indicator">
         <div className='loading-letter'>l</div>

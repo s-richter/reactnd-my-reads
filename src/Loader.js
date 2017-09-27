@@ -1,8 +1,10 @@
 import React from 'react'
 import LoadingIndicator from './LoadingIndicator'
 
+// note to self: super detailed description in case I want to use this some time in the future
+
 // A wrapper component that displays a loading (busy) indicator when a long-running operation is being
-//  executed
+//  executed. Uses the <LoadingIndicator>-Component.
 // Usage:
 //  - First, check that the long-running operation returns a promise. The 'Loader' component uses this
 //      to determine when the operation has finished
@@ -16,10 +18,10 @@ import LoadingIndicator from './LoadingIndicator'
 //      The child component(s) call this function to indicate that a long-running operation is being
 //      executed
 //  - 'wrapOperation' takes one or more arguments: the first is the long-running function, the others are
-//      the argument to this long-running function
-//  - 'wrapOperation' first signals that the loading indicator should be displayed by setting its state
+//      the arguments to this long-running function
+//  - 'wrapOperation' first signals that the loading indicator should be displayed by setting the state
 //      variable 'showIndicator' to true, triggering a re-render by React
-//  - 'wrapOperation' then calld the long-running function
+//  - 'wrapOperation' then calls the long-running function
 //  - once the long-running function has returned a promise, 'wrapOperation' signals that the loading
 //      indicator should be hidden/destroyed by setting its state variable 'showIndicator' to false
 //  - 'wrapOperation' then returns a promise so that the caller can (optionally) chain .then()-calls
@@ -38,7 +40,8 @@ import LoadingIndicator from './LoadingIndicator'
 //          onChange={(event) => {
 //              this.props
 //                  .wrapOperation(this.onChangeQuery, event.target.value)
-//                  -then(() => this.setState({ applicationReady: true })))
+//                  .then(() => this.setState({ applicationReady: true }))
+//          }}
 class Loader extends React.Component {
     state = {
         showIndicator: false
