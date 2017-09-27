@@ -10,14 +10,18 @@ import './App.css'
 // the top level component of the app 'My Reads'
 class BooksApp extends React.Component {
   state = {
-    books: []   // the books contained by the shelves
+    books: [],  // the books contained by the shelves
+    booksHaveBeenFetched: false   // to notify child components that they should wait
   }
 
   componentDidMount() {
     BooksAPI
       .getAll()
       .then((books) => {
-        this.setState({ books })
+        this.setState({
+          books,
+          booksHaveBeenFetched: true
+         })
       })
   }
 
@@ -63,6 +67,7 @@ class BooksApp extends React.Component {
             <BookList
               books={this.state.books}
               handleChangeShelf={this.handleChangeShelf}
+              booksHaveBeenFetched={this.state.booksHaveBeenFetched}
             />
           </Loader>
         )} />

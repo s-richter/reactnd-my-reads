@@ -19,7 +19,11 @@ function Bookshelf(props) {
             <div className="bookshelf-books">
                 {
                     bookCount === 0
-                        ? <div>fetching books...</div>
+                        ? (
+                            props.booksHaveBeenFetched
+                                ? <div>This shelf does not contain any books.</div>
+                                : <div>fetching books...</div>
+                        )
                         : <BooksGrid
                             books={props.books}
                             handleChangeShelf={(book, shelf) =>

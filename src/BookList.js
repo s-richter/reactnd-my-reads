@@ -29,6 +29,7 @@ function BookList(props) {
                                 books={props.books.filter(book => book.shelf === category)}
                                 handleChangeShelf={(book, shelf) =>
                                     props.wrapOperation(props.handleChangeShelf, book, shelf)}
+                                booksHaveBeenFetched={props.booksHaveBeenFetched}
                             />
                         ))
                     }
