@@ -65,7 +65,7 @@ function Book(props) {
     )
 }
 
-// the code above does also do some (overlapping) checks
+// the code above also does some (overlapping) checks
 Book.PropTypes = {
     book: PropTypes.shape({
         imageLinks: PropTypes.array.isRequired,

@@ -1,7 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // the component giving the user a clue when an invalid search term has been entered
 class SearchTermsClue extends React.Component {
+    static propTypes = {
+        query: PropTypes.string.isRequired,
+        onChangeQuery: PropTypes.func.isRequired,
+        querying: PropTypes.bool.isRequired
+    }
+
     static searchTerms = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy',
         'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief',
         'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook',
@@ -63,7 +70,7 @@ class SearchTermsClue extends React.Component {
                         </div>
                         <div className='search-books-clue'>
                             The following search terms are supported:
-                            </div>
+                        </div>
                         <div className='search-books-valid-search-terms'>
                             {
                                 this.groupedSearchTerms.map(group =>
@@ -80,7 +87,8 @@ class SearchTermsClue extends React.Component {
                                                         key={term}
                                                         className='search-books-search-term'
                                                         onClick={() =>
-                                                            this.props.onChangeQuery(term)}>
+                                                            this.props.onChangeQuery(term)}
+                                                    >
                                                         {term}
                                                     </div>
                                                 )

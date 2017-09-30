@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { defaultCategory, internalNames as ShelfCategories, getDisplayName } from './ShelfCategories'
 import Bookshelf from './Bookshelf'
 
@@ -43,4 +44,11 @@ function BookList(props) {
         </div>
     )
 }
+
+BookList.PropTypes = {
+    books: PropTypes.array.isRequired,
+    handleChangeShelf: PropTypes.func.isRequired,
+    booksHaveBeenFetched: PropTypes.bool.isRequired
+}
+
 export default BookList

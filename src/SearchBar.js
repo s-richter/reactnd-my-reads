@@ -1,8 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 class SearchBar extends React.Component {
-    componentDiMount() {
+    static propTypes = {
+        query: PropTypes.string.isRequired,
+        onChangeQuery: PropTypes.func.isRequired
+    }
+
+    componentDidMount() {
         this.textInput.focus();
     }
 

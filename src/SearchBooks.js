@@ -23,13 +23,13 @@ class SearchBooks extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        window.scrollTo(0, 0)   // when the query changes, scroll to the top so that all results are
-                                //  visible
+        window.scrollTo(0, 0)   // when the query changes, scroll to the top of the page so that all
+                                //  results are visible
     }
 
-    // this event handler gets called whenever the user changes the search term. It updates the list of
-    //  displayed books accordingly and returns a promise so that the caller can act upon the end of the
-    //  operation
+    // this event handler gets called whenever the user changes the search term. It updates the list
+    //  of displayed books accordingly and returns a promise so that the caller can act upon the end
+    //  of the operation
     onChangeQuery = (query) => {
         return Promise
             .resolve(this.setState({
@@ -82,6 +82,8 @@ class SearchBooks extends React.Component {
                         })
                         .then(() => this.setState({ querying: false }))
                 } else {
+                    // zero or one characters - don't call the server, because we require at least two
+                    //  characters
                     this.setState({
                         matchingBooks: [],
                         lastQuery: query
