@@ -1,4 +1,4 @@
-# MyReads: A Book Tracking App - Udacity React Nanodegree - Project 1
+# My Reads: A Book Tracking App - Udacity React Nanodegree - Project 1
 
 This app allows the user to manage books by searching for new books and adding them to book shelves.
 
@@ -13,9 +13,10 @@ On the main page, the user can move books between the following shelves (categor
 * want to read
 * read - the books the user has already read
 * none - to remove the book from the shelves
+
 For moving the books between shelves, a menu control (drop down) next to the cover picture of each book is supplied.
 
-On the search page the user can enter a search term and a list of matching books is being displayed while the user types. As on the main page, books have a menu control to move them between shelves. If a book is already on a shelf on the main page, this shelf is marked on the menu control.
+On the search page the user can enter a search term and a list of matching books is being displayed while the user types. As on the main page, books have a menu control to move them between shelves. If a book is already on a shelf on the main page, this shelf is also marked on the menu control on the search page.
 
 The app uses a remote server to search for books. An animated loading indicator is displayed while fetching data from the server, and an animated notification is displayed on the search page whenever the user changes a books' shelf. If the user enters an invalid search term, a list with valid terms is displayed.
 
