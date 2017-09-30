@@ -6,15 +6,15 @@ import LoadingIndicator from './LoadingIndicator'
 // A wrapper component that displays a loading (busy) indicator when a long-running operation is being
 //  executed. Uses the <LoadingIndicator>-Component.
 // Usage:
-//  - First, check that the long-running operation returns a promise. The 'Loader' component uses this
-//      to determine when the operation has finished
-//  - Wrap the component(s) with the long-running operation(s) into a 'Loader' component:
+//  - First, check that the long-running operation returns a promise. The <Loader> component uses this to
+//      determine when the operation has finished
+//  - Wrap the component(s) with the long-running operation(s) into a <Loader> component:
 //      ...
 //          <Loader>
 //              <MyComponent .../>
 //          </Loader>
 //      ...
-//  - 'Loader' wraps the child component(s) and supplies a property 'wrapOperation', which is a function.
+//  - <Loader> wraps the child component(s) and supplies a property 'wrapOperation', which is a function.
 //      The child component(s) call this function to indicate that a long-running operation is being
 //      executed
 //  - 'wrapOperation' takes one or more arguments: the first is the long-running function, the others are
@@ -44,7 +44,7 @@ import LoadingIndicator from './LoadingIndicator'
 //          }}
 class Loader extends React.Component {
     state = {
-        showIndicator: false
+        showIndicator: false    // determines if the component <LoadingIndicator> should be visible
     }
 
     // this method is called by the wrapped component and has one ore more arguments:
@@ -57,8 +57,8 @@ class Loader extends React.Component {
         // some checks on the first argument
         if (promiseFunc && typeof promiseFunc === 'function') {
             try {
-                // this fails if promiseFunc does not return a promise. If it succeeds, the operation
-                //  is finished and we signal that we want to scrap the busy indicator. Furthermore, we
+                // this fails if promiseFunc does not return a promise. If it succeeds, the operation is
+                //  finished and we signal that we want to scrap the busy indicator. Furthermore, we
                 //  return a promise so that the caller can act upon the finalization of the operation
                 return promiseFunc(...args).then(() => {
                     this.setState({ showIndicator: false })

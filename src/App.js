@@ -10,8 +10,8 @@ import './App.css'
 // the top level component of the app 'My Reads'
 class BooksApp extends React.Component {
   state = {
-    books: [],  // the books contained by the shelves
-    booksHaveBeenFetched: false   // to notify child components that they should wait
+    books: [],                    // the books contained by the shelves
+    booksHaveBeenFetched: false   // to notify child components if they should wait for results
   }
 
   componentDidMount() {
@@ -33,15 +33,15 @@ class BooksApp extends React.Component {
         // there should only be four well defined categories (including 'none')
         shelf = defaultCategory
       }
-      // now that the shelf category of the book is verified, we can set it locally and on the 
-      //  backend server. We return a promise so that the caller can act upon it
+      // now that the shelf category of the book is verified, we can set it locally and on the backend
+      //  server. We return a promise so that the caller can act upon it
       return BooksAPI
         .update(book, shelf)
         .then(() => {
           book.shelf = shelf
           // the function 'handleChangeShelf' gets also called from the component <SearchBooks>.
-          //  In this case the book referred to by the argument 'book' is not yet contained in the
-          //  array 'books', so we  have to explicitly add it using concat():
+          //  In this case the book referred to by the argument 'book' is not yet contained in the array
+          //  'books', so we  have to explicitly add it using concat():
           this.setState((prev) => ({
             books: prev.books
               .filter((b) => (
@@ -53,7 +53,7 @@ class BooksApp extends React.Component {
       // .then(() => {
       //   var currentTime = new Date().getTime()
       //   while (currentTime + 10000 >= new Date().getTime()) { }
-      // })     // for testing the loading indicator
+      // })     // for testing the loading indicator. Blocking operation.
     }
   }
 

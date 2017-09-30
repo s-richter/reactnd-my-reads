@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+// the search bar at the top of the page where the user enters a search term
 class SearchBar extends React.Component {
     static propTypes = {
         query: PropTypes.string.isRequired,

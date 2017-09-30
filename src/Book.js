@@ -8,12 +8,14 @@ function Book(props) {
     const book = props.book
     // sometimes the books returned by BooksAPI.search() do not have values for all properties, so let's
     //  set default values if this is the case
-    const imageURL = book.imageLinks
-        ? `url(${book.imageLinks.thumbnail})`
-        : 'url(https://books.google.com/googlebooks/images/no_cover_thumb.gif)'
-    const authors = book.authors
-        ? book.authors.join(', ')
-        : ''
+    const imageURL =
+        book.imageLinks
+            ? `url(${book.imageLinks.thumbnail})`
+            : 'url(https://books.google.com/googlebooks/images/no_cover_thumb.gif)'
+    const authors =
+        book.authors
+            ? book.authors.join(', ')
+            : ''
 
     return (
         <li>
@@ -34,9 +36,8 @@ function Book(props) {
                     <div className="book-shelf-changer">
                         <select
                             value={book.shelf}
-                            onChange={(e) => {
-                                props.handleChangeShelf(props.book, e.target.value)
-                            }}>
+                            onChange={(e) => { props.handleChangeShelf(props.book, e.target.value) }}
+                        >
                             {/* the first entry in the context menu is actually not a shelf category, so 
                                 we have to add it manually
                             */}

@@ -15,7 +15,7 @@ class SearchBooks extends React.Component {
     }
 
     state = {
-        query: '',
+        query: '',          // the current query (search term)
         lastQuery: '',      // the last query. Used to determine if sending the new query makes sense
         matchingBooks: [],  // the books matching the current search term
         newShelf: '',       // the shelf a book was recently added to
@@ -27,19 +27,20 @@ class SearchBooks extends React.Component {
                                 //  results are visible
     }
 
-    // this event handler gets called whenever the user changes the search term. It updates the list
-    //  of displayed books accordingly and returns a promise so that the caller can act upon the end
-    //  of the operation
+    // this event handler gets called whenever the user changes the search term. It updates the list of
+    //  displayed books accordingly and returns a promise so that the caller can act upon the end of the
+    //  operation
     onChangeQuery = (query) => {
         return Promise
             .resolve(this.setState({
                 querying: true,
-                query: query
+                query: query    // set the state immediately so that the user can continue typing
             }))
             .then(() => {
-                // only search (call the server) if the query is longer than 1 character and, if the
-                //  last search returned no results, don't search if the new query builds upon (adds
-                //  letters to) the last query string, except when the query consists of two letters
+                // only search (call the server) if the query is longer than 1 character
+                // also, don't search if the last search returned no results and the new query builds upon
+                //  (adds letters to) the last query string, except when the query consists of just two
+                //  letters
                 if (query.length > 1
                     && (!(this.state.matchingBooks.length === 0
                         && query.startsWith(this.state.lastQuery))
@@ -50,8 +51,8 @@ class SearchBooks extends React.Component {
                             if (Array.isArray(result)) {
                                 this.setState({
                                     matchingBooks: result.map((b) => {
-                                        // set the shelf of the book, if a shelf was already set on
-                                        //  the main page
+                                        // set the shelf of the book, if a shelf was already set on the
+                                        //  main page
                                         let bookInShelf = this.props.booksInShelves
                                             .find((item) => item.id === b.id)
                                         if (bookInShelf) {
@@ -79,8 +80,8 @@ class SearchBooks extends React.Component {
                             lastQuery: query
                         })) // whatever the result was, the querying operation is finished now
                 } else {
-                    // zero or one characters - don't call the server, because we require at least two
-                    //  characters
+                    // zero or one characters - don't call the server, because at least two characters are
+                    //  required
                     return Promise.resolve(
                         this.setState({
                             matchingBooks: [],
@@ -90,7 +91,6 @@ class SearchBooks extends React.Component {
                 }
             })
     }
-
 
     render() {
         return (

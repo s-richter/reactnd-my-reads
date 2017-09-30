@@ -31,7 +31,7 @@ class SearchTermsClue extends React.Component {
         this.groupedSearchTerms =
             Array
                 .from(SearchTermsClue.searchTerms)
-                .reduce(function (acc, current) {
+                .reduce((acc, current) => {
                     let firstLetter = current[0]
                     let group = acc.find(grp => grp.letter === firstLetter)
                     if (group) { // there is already an object for this letter
