@@ -65,32 +65,28 @@ class SearchBooks extends React.Component {
                             } else {
                                 // in case of a problem no books should be displayed so that the user
                                 //  knows that the search term is invalid
-                                this.setState({
-                                    matchingBooks: [],
-                                    lastQuery: query
-                                })
+                                this.setState({ matchingBooks: [] })
                             }
                         })
                         .catch((ex) => {
                             // in case of a problem no books should be displayed so that the user knows
                             //  that the search term is invalid
-                            this.setState({
-                                matchingBooks: [],
-                                lastQuery: query
-                            })
+                            this.setState({ matchingBooks: [] })
 
                         })
-                        .then(() => this.setState({ querying: false }))
+                        .then(() => this.setState({
+                            querying: false,
+                            lastQuery: query
+                        })) // whatever the result was, the querying operation is finished now
                 } else {
                     // zero or one characters - don't call the server, because we require at least two
                     //  characters
-                    this.setState({
-                        matchingBooks: [],
-                        lastQuery: query
-                    })
-                    return Promise
-                        .resolve(null)
-                        .then(() => this.setState({ querying: false }))
+                    return Promise.resolve(
+                        this.setState({
+                            matchingBooks: [],
+                            lastQuery: query,
+                            querying: false
+                        }))
                 }
             })
     }
@@ -102,9 +98,7 @@ class SearchBooks extends React.Component {
                 {/* the search bar */}
                 <SearchBar
                     query={this.state.query}
-                    onChangeQuery={(query) =>
-                        this.props.wrapOperation(this.onChangeQuery, query)
-                    }
+                    onChangeQuery={(query) => this.props.wrapOperation(this.onChangeQuery, query)}
                 />
 
                 {/* the list of books matching the current query */}
