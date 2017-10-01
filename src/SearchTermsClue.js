@@ -76,7 +76,8 @@ class SearchTermsClue extends React.Component {
                                 this.groupedSearchTerms.map(group =>
                                     <div
                                         key={group.letter}
-                                        className='search-books-search-term-group'>
+                                        className='search-books-search-term-group'
+                                    >
                                         <div className='search-books-search-term-group-letter'>
                                             {group.letter}
                                         </div>
@@ -86,8 +87,7 @@ class SearchTermsClue extends React.Component {
                                                     <div
                                                         key={term}
                                                         className='search-books-search-term'
-                                                        onClick={() =>
-                                                            this.props.onChangeQuery(term)}
+                                                        onClick={() => this.props.onChangeQuery(term)}
                                                     >
                                                         {term}
                                                     </div>
