@@ -21,6 +21,11 @@ On the search page the user can enter a search term and a list of matching books
 The app uses a remote server to search for books. An animated loading indicator is displayed while fetching data from the server, and an animated notification is displayed on the search page whenever the user changes a books' shelf. If the user enters an invalid search term, a list with valid terms is displayed.
 
 
+## Demo
+
+You can find a demo of the app at [http://reactnd-my-reads-s-richter.azurewebsites.net/](http://reactnd-my-reads-s-richter.azurewebsites.net/)
+
+
 ## Installing
 
 1. run `git clone https://github.com/s-richter/reactnd-my-reads` to clone this repository
