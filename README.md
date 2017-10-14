@@ -18,7 +18,7 @@ For moving the books between shelves, a menu control (drop down) next to the cov
 
 On the search page the user can enter a search term and a list of matching books is being displayed while the user types. As on the main page, books have a menu control to move them between shelves. If a book is already on a shelf on the main page, this shelf is also marked on the menu control on the search page.
 
-The app uses a remote server to search for books. An animated loading indicator is displayed while fetching data from the server, and an animated notification is displayed on the search page whenever the user changes a books' shelf. If the user enters an invalid search term, a list with valid terms is displayed.
+The app uses a remote server to search for books. An animated loading indicator is displayed while fetching data from the server, and an animated notification is displayed on the search page whenever the user changes a books' shelf. If the user enters an invalid search term, a list with valid terms is displayed. The search is also debounced (200ms), reducing the number of API calls.
 
 
 ## Demo
@@ -55,6 +55,7 @@ The following search terms are supported:
 
 * [React](https://facebook.github.io/react/) - the UI framework
 * [React Router](https://reacttraining.com/react-router/) - routing for React
+* [react-debounce-input](https://github.com/nkbt/react-debounce-input) - debouncing input fields
 
 
 ## Authors
