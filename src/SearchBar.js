@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { DebounceInput } from 'react-debounce-input';
 
 // the search bar at the top of the page where the user enters a search term
 class SearchBar extends React.Component {
@@ -22,12 +23,13 @@ class SearchBar extends React.Component {
             <div className="search-books-bar">
                 <Link className="close-search" to="/">Close</Link>
                 <div className="search-books-input-wrapper">
-                    <input
-                        type="text"
+                    <DebounceInput
+                        minLength={0}
+                        debounceTimeout={200}
                         placeholder="Search by title or author"
                         value={this.props.query}
                         onChange={(event) => this.props.onChangeQuery(event.target.value)}
-                        ref={(input) => { this.textInput = input; }}
+                        inputRef={(input) => { this.textInput = input; }}
                     />
                 </div>
                 <div className='search-books-bar-clear-wrapper'>

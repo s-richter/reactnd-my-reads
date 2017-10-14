@@ -9,6 +9,12 @@ import SearchTermsClue from './SearchTermsClue'
 
 // the component enabling the user to search for books and place them on a shelf
 class SearchBooks extends React.Component {
+    constructor() {
+        super()
+        this.lastQuery = '';    // should not trigger a re-render, so not implemented as state
+        this.queryingFinished = true;   // also not suited for state
+    }
+
     static propTypes = {
         booksInShelves: PropTypes.array.isRequired,
         handleChangeShelf: PropTypes.func.isRequired
@@ -16,7 +22,6 @@ class SearchBooks extends React.Component {
 
     state = {
         query: '',          // the current query (search term)
-        lastQuery: '',      // the last query. Used to determine if sending the new query makes sense
         matchingBooks: [],  // the books matching the current search term
         newShelf: '',       // the shelf a book was recently added to
         querying: false     // true while the server has not yet returned a result
@@ -24,7 +29,7 @@ class SearchBooks extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         window.scrollTo(0, 0)   // when the query changes, scroll to the top of the page so that all
-                                //  results are visible
+        //  results are visible
     }
 
     // this event handler gets called whenever the user changes the search term. It updates the list of
@@ -37,14 +42,21 @@ class SearchBooks extends React.Component {
                 query: query    // set the state immediately so that the user can continue typing
             }))
             .then(() => {
-                // only search (call the server) if the query is longer than 1 character
-                // also, don't search if the last search returned no results and the new query builds upon
-                //  (adds letters to) the last query string, except when the query consists of just two
-                //  letters
-                if (query.length > 1
+                // only search under certain circumstances
+                if (query.length > 1    // don't search if just one character has been entered
                     && (!(this.state.matchingBooks.length === 0
-                        && query.startsWith(this.state.lastQuery))
-                        || query.length === 2)) {
+                        && query.startsWith(this.lastQuery))    // if the previous search didn't return
+                        //  any results, adding more characters won't change the search result. But there
+                        //  are several edge cases that might warrant a search (see next cases)
+                        //|| query.length === 2   // previously, there was just one character, and
+                        //  therefore no search was conducted (see above). Now it's time to do a search
+                        || this.queryingFinished === false  // another search operation is going on, and
+                        //  no results have been returned so far, so it's unknown if it makes sense to
+                        //  do a new search. To be safe, execute a new search operation now
+                        || this.lastQuery.length < 2)) {    // previously, there were just zero or one
+                        //  characters, and therefore no search was conducted (see above). Now it's time
+                        //  to do a search!
+                    this.queryingFinished = false
                     return BooksAPI
                         .search(query)
                         .then((result) => {
@@ -75,17 +87,19 @@ class SearchBooks extends React.Component {
                             this.setState({ matchingBooks: [] })
 
                         })
-                        .then(() => this.setState({
-                            querying: false,
-                            lastQuery: query
-                        })) // whatever the result was, the querying operation is finished now
+                        .then(() => {
+                            this.lastQuery = query
+                            this.queryingFinished = true
+                            this.setState({ querying: false })
+                        }) // whatever the result was, the querying operation is finished now
                 } else {
-                    // zero or one characters - don't call the server, because at least two characters are
-                    //  required
+                    // zero or one characters - don't call the server, because at least two characters
+                    //  are required
+                    this.lastQuery = query
+                    this.queryingFinished = true
                     return Promise.resolve(
                         this.setState({
                             matchingBooks: [],
-                            lastQuery: query,
                             querying: false
                         }))
                 }
