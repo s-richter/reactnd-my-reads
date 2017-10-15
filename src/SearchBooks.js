@@ -48,7 +48,6 @@ class SearchBooks extends React.Component {
                         && query.startsWith(this.lastQuery))    // if the previous search didn't return
                         //  any results, adding more characters won't change the search result. But there
                         //  are several edge cases that might warrant a search (see next cases)
-                        //|| query.length === 2   // previously, there was just one character, and
                         //  therefore no search was conducted (see above). Now it's time to do a search
                         || this.queryingFinished === false  // another search operation is going on, and
                         //  no results have been returned so far, so it's unknown if it makes sense to
