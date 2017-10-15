@@ -28,7 +28,9 @@ function Book(props) {
                         style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `${imageURL}`
+                            backgroundImage: `${imageURL}`,
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'contain'
                         }}>
                     </div>
 
