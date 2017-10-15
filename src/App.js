@@ -1,10 +1,11 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import { defaultCategory, internalNames as ShelfCategories } from './ShelfCategories'
 import BookList from './BookList'
 import SearchBooks from './SearchBooks'
 import Loader from './Loader'
+import NoMatch from './NoMatch'
 import './App.css'
 
 // the top level component of the app 'My Reads'
@@ -21,7 +22,7 @@ class BooksApp extends React.Component {
         this.setState({
           books,
           booksHaveBeenFetched: true
-         })
+        })
       })
   }
 
@@ -61,25 +62,30 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
 
-        {/* the first <Route> contains the book shelves with the books  */}
-        <Route exact path="/" render={() => (
-          <Loader>
-            <BookList
-              books={this.state.books}
-              handleChangeShelf={this.handleChangeShelf}
-              booksHaveBeenFetched={this.state.booksHaveBeenFetched}
-            />
-          </Loader>
-        )} />
+        <Switch>
+          {/* the first <Route> contains the book shelves with the books  */}
+          <Route exact path="/" render={() => (
+            <Loader>
+              <BookList
+                books={this.state.books}
+                handleChangeShelf={this.handleChangeShelf}
+                booksHaveBeenFetched={this.state.booksHaveBeenFetched}
+              />
+            </Loader>
+          )} />
 
-        {/* the second <Route> contains the search page  */}
-        <Route path="/search" render={() => (
-          <Loader>
-            <SearchBooks
-              booksInShelves={this.state.books}
-              handleChangeShelf={this.handleChangeShelf} />
-          </Loader>
-        )} />
+          {/* the second <Route> contains the search page  */}
+          <Route path="/search" render={() => (
+            <Loader>
+              <SearchBooks
+                booksInShelves={this.state.books}
+                handleChangeShelf={this.handleChangeShelf} />
+            </Loader>
+          )} />
+
+          {/* any other URL is not valid - display an error page */}
+          <Route component={NoMatch}/>
+        </Switch>
       </div>
     )
   }
