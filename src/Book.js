@@ -67,10 +67,10 @@ function Book(props) {
 }
 
 // the code above also does some (overlapping) checks
-Book.PropTypes = {
+Book.propTypes = {
     book: PropTypes.shape({
-        imageLinks: PropTypes.array.isRequired,
-        authors: PropTypes.array.isRequired,
+        imageLinks: PropTypes.object,
+        authors: PropTypes.array,
         shelf: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired
     }),

@@ -45,7 +45,7 @@ function BookList(props) {
     )
 }
 
-BookList.PropTypes = {
+BookList.propTypes = {
     books: PropTypes.array.isRequired,
     handleChangeShelf: PropTypes.func.isRequired,
     booksHaveBeenFetched: PropTypes.bool.isRequired
